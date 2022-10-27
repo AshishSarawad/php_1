@@ -15,29 +15,7 @@ pipeline {
 
                 checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/AshishSarawad/php_1.git']]])                   }
 
-  
-
-        }
-        
-    
-        
-    stage('SonarQube Analysis') {
-        steps{
-            withSonarQubeEnv(installationName: 'sonarqube', credentialsId: 'sonar') {
-      sh "/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonarqube/bin/sonar-scanner"
-            }
-                
-        }
-    }
-
-     
-    stage("Quality Gate") {
-            steps {
-              timeout(time: 1, unit: 'HOURS') {
-                waitForQualityGate abortPipeline: true
-              }
-            }
-          }   
+          } 
     
     
    
@@ -81,16 +59,6 @@ pipeline {
 
     }    
   
-    
-     stage('K8S Deploy') {
-        steps{   
-            script{
-                
-                sh ('kubectl apply -f  phpK8SDeploy.yml')
-                
-            }
-        }
-       }
     }
   
 
