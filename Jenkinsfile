@@ -12,7 +12,11 @@ pipeline {
     stages {
         stage('Code checkout') {
             steps {
+
+                checkout([$class: 'GitSCM', branches: [[name: '*/dev']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/AshishSarawad/php_app1.git']]])                   }
+
                 checkout([$class: 'GitSCM', branches: [[name: '*/feature1']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/AshishSarawad/php_app1.git']]])                   }
+
         }
         
     
@@ -75,6 +79,11 @@ pipeline {
             }
         }
 
+    }    
+ }
+}
+
+
     } 
     
      stage('K8S Deploy') {
@@ -105,3 +114,4 @@ pipeline {
      
       
   
+
